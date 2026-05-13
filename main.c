@@ -7,8 +7,6 @@
 #include "otim.h"
 
 int main() {
-    int n;
-    scanf("%d", &n);
     clock_t inicio, fim;
     srand(time(NULL));
     

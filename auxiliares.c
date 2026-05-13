@@ -48,7 +48,7 @@ void leEntrada(Problema *p){
         p->dist[i] = (double*)(malloc(sizeof(double)* p->n));
         if(!p->dist[i]){
             printf("Erro de alocaco de memoria");
-            for(int j =i-1;i>=0;j--){
+            for(int j =i-1;j>=0;j--){
                 free(p->dist[j]);
             }
 

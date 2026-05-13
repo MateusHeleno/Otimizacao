@@ -8,8 +8,8 @@
 
 
 void vizinhoMaisProximo(Problema *p, int rota[]) {
-    int *visitado = (int)(malloc(sizeof(int)* p->n));
-    visitado = {0};
+    int *visitado = (int*)(malloc(sizeof(int)* p->n));
+    memset(visitado, 0, sizeof(int) * p->n); // preenchendo tudo com 0
     
     // começa na cidade 0
     rota[0] = 0;
@@ -36,7 +36,7 @@ void vizinhoMaisProximo(Problema *p, int rota[]) {
 }
 
 void mcfic(Problema *p,int rota[]) {
-    int fora = (int)(malloc(sizeof(int) * p->n))
+    int fora = (int*)(malloc(sizeof(int) * p->n));
     int nFora = 0;
 
     rota[0] = 0;
