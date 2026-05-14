@@ -5,9 +5,8 @@
 
 #define TOLERANCIA  1e-10
  
-//  Estruturas 
 typedef struct {
-    int    id;
+    int id;
     double x, y;    
 } Cidade;
  

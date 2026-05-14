@@ -6,8 +6,12 @@
 #include <string.h>
 #include "otim.h"
 
-void leEntrada(Problema *p){
-    FILE *arquivo = fopen("att532.tsp", "r");
+void leEntrada(Problema *p,char *nomeArq){
+    char nome[512];
+    sprintf(nome, "arquivos/%s", nomeArq);
+
+    FILE *arquivo = fopen(nome, "r");
+
     if (arquivo == NULL){
         printf("Erro ao abrir arquivo\n");
         exit(1);
@@ -152,3 +156,64 @@ void embaralha(int rota[], int tam) {
     }
 }
 
+void liberaProblema(Problema *p){
+    if(!p)
+        return;
+
+    if(p->dist){
+        for(int i = 0;i<p->n;i++){
+            if(p->dist[i])
+                free(p->dist[i]);
+        }
+        free(p->dist);
+    }
+
+    if(p->cidades)
+        free(p->cidades);
+};
+
+int contaLetras(char *nomeArq);
+
+int procuraSolucaoLit(char *nomeArq){
+    FILE *arquivo = fopen("arquivos/solutions", "r");
+
+    if (arquivo == NULL){
+        printf("Erro ao abrir arquivo\n");
+        exit(1);
+    }
+
+    char linha[256];
+
+    char *ponto = strchr(nomeArq, '.');
+    int num ;
+    if (ponto != NULL) {
+        num = (int)(ponto - nomeArq);
+    } else {
+        num = strlen(nomeArq);
+    }
+    int resposta = -1;
+
+    // le o cabecalho
+    while (fgets(linha, sizeof(linha), arquivo)) {
+        // pega o n
+        if (!strncmp(linha, nomeArq, num)){// se o sprimeiros x caracteres forem iguais 
+            char *val = strstr(linha, ":");
+            if (val){ // val é o ponteiro para os dois pontos
+                sscanf(val + 1, "%d", &resposta);
+                break;
+            }
+        }
+
+    }
+
+    fclose(arquivo);
+    return resposta;
+}
+
+int contaLetras(char *nomeArq){
+    int cont = 0;
+    while(nomeArq[cont] != '\0'){
+        cont++;
+    }
+    return cont;
+}

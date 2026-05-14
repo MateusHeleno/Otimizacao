@@ -3,9 +3,12 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "auxiliares.h"
 
+// perguntar de compensa preencher a primeiras casa do mcfic com o VMP
+// sobre o gamma, o puca fez aleatorio, pq ?? vake a pena ?
 
 void vizinhoMaisProximo(Problema *p, int rota[]) {
     int *visitado = (int*)(malloc(sizeof(int)* p->n));
@@ -36,7 +39,7 @@ void vizinhoMaisProximo(Problema *p, int rota[]) {
 }
 
 void mcfic(Problema *p,int rota[]) {
-    int fora = (int*)(malloc(sizeof(int) * p->n));
+    int *fora = (int*)(malloc(sizeof(int) * p->n));
     int nFora = 0;
 
     rota[0] = 0;
@@ -87,7 +90,8 @@ void mcfic(Problema *p,int rota[]) {
                 int j = rota[(pos + 1) % tamanhoRota];
 
                 // custo de inserir k entre i e j
-                double custo = p->dist[i][k] + p->dist[k][j] - p->dist[i][j];
+                double custo = p->dist[i][k] + p->dist[k][j] - p->dist[i][j] 
+                /* - gamma * (dist[0][k] + dist[k][0]) */;
 
                 if (custo < melhorCusto) {
                     melhorCusto   = custo;
@@ -205,31 +209,31 @@ bool orOpt2(Problema *p,int rota[]) {
     bool mInvertido = false;
     
     
-    // j = inicio do bloco [j, j+1]
+    // j inicio bloco
     for (int j = 0; j < p->n - 1; j++) {
         int ant  = (j - 1 + p->n) % p->n;
         int fim  = j + 1;            // segundo elemento do bloco
         int prox = (j + 2) % p->n;      // vizinho apos o bloco
 
-        // custo de remover o bloco [j, fim] de onde esta
+        // custo de remover
         double custo_remocao = p->dist[rota[ant]][rota[j]]
                                 + p->dist[rota[fim]][rota[prox]]
                                 - p->dist[rota[ant]][rota[prox]];
 
         for (int i = 0; i < p->n; i++) {
-            // pula posicoes que fazem parte ou sao vizinhas do bloco
+            // pula posicoes que  sao do bloco
             if (i == ant || i == j || i == fim) 
                 continue;
 
             int iProx = (i + 1) % p->n;
 
-            // --- movimento normal: insere [j, fim] ---
+            // j fim
             double delta_normal = p->dist[rota[i]][rota[j]]
                                 + p->dist[rota[fim]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
                                 - custo_remocao;
 
-            // --- movimento invertido: insere [fim, j] ---
+            // fim j
             double delta_inv = p->dist[rota[i]][rota[fim]]
                                 + p->dist[rota[j]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
@@ -259,7 +263,7 @@ bool orOpt2(Problema *p,int rota[]) {
     }
 
     if (melhorou) {
-        if (!mInvertido) {
+        if (mInvertido) {
             insercao(rota, t + 1, k);
             insercao(rota, t, k);
         } else {
@@ -331,7 +335,7 @@ bool orOpt3(Problema *p,int rota[]) {
         }
     }
     if (melhorou) {
-        if (!mInvertido) {
+        if (mInvertido) {
             insercao(rota, t + 2, k);
             insercao(rota, t + 1, k);
             insercao(rota, t, k);
