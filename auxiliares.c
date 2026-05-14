@@ -172,8 +172,6 @@ void liberaProblema(Problema *p){
         free(p->cidades);
 };
 
-int contaLetras(char *nomeArq);
-
 int procuraSolucaoLit(char *nomeArq){
     FILE *arquivo = fopen("arquivos/solutions", "r");
 
@@ -216,4 +214,41 @@ int contaLetras(char *nomeArq){
         cont++;
     }
     return cont;
+}
+
+bool validarSolucao(Problema *p, int rota[]) {
+    int *contagem = (int*)(malloc(sizeof(int)* p->n));
+    memset(contagem, 0, sizeof(int) * p->n); // preenchendo tudo com 0
+    
+    if (contagem == NULL) {
+        printf("Erro de alocacao de memória\n");
+        return false;
+    }
+
+    for (int i = 0; i < p->n; i++) {
+        int cidade = rota[i];
+
+        if (cidade < 0 || cidade >= p->n) {
+            printf("Cidade inexistente: %d\n", cidade);
+            free(contagem);
+            return false;
+        }
+
+        contagem[cidade]++;
+    }
+
+    for (int i = 0; i < p->n; i++) {
+        if (contagem[i] == 0) {
+            printf("Cidade faltando %d\n", i);
+            free(contagem);
+            return false;
+        } else if (contagem[i] > 1) {
+            printf("Cidade %d duplicada\n", contagem[i]);
+            free(contagem);
+            return false;
+        }
+    }
+
+    free(contagem);
+    return true;
 }

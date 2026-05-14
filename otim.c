@@ -263,7 +263,7 @@ bool orOpt2(Problema *p,int rota[]) {
     }
 
     if (melhorou) {
-        if (mInvertido) {
+        if (!mInvertido) {
             insercao(rota, t + 1, k);
             insercao(rota, t, k);
         } else {
@@ -335,7 +335,7 @@ bool orOpt3(Problema *p,int rota[]) {
         }
     }
     if (melhorou) {
-        if (mInvertido) {
+        if (!mInvertido) {
             insercao(rota, t + 2, k);
             insercao(rota, t + 1, k);
             insercao(rota, t, k);

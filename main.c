@@ -65,6 +65,10 @@ int main(int argc, char *argv[]) {
     printf("Tempo de execucao: %f segundos\n", tempo);
     int otimo = procuraSolucaoLit(argv[1]);
     printf("%s: %d\n",argv[1],otimo);
+    if(validarSolucao(&p,rota1))
+        printf("verdadeiro \n");
+    else
+        printf("falso \n");
 
     liberaProblema(&p);
 

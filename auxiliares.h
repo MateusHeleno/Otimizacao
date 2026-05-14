@@ -20,5 +20,6 @@ void embaralha(int rota[], int tam);
 void liberaProblema(Problema *p);
 int procuraSolucaoLit(char *nomeArq);
 int contaLetras(char *nomeArq);
+bool validarSolucao(Problema *p, int rota[]);
 
 #endif //AUXILIARES_h
