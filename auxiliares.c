@@ -184,7 +184,7 @@ int procuraSolucaoLit(char *nomeArq){
 
     char linha[256];
 
-    char *ponto = strchr(nomeArq, '.');
+    char *ponto = strchr(nomeArq, '.'); // ponteiro do ponto
     int num ;
     if (ponto != NULL) {
         num = (int)(ponto - nomeArq);
