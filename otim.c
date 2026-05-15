@@ -20,19 +20,19 @@ void vizinhoMaisProximo(Problema *p, int rota[]) {
     
     for (int i = 1; i < p->n; i++) { // monta a rota
         int atual = rota[i-1];
-        int melhor_viz = -1;
-        double melhor_dist = 1e18; // numero mto alto
+        int melhorVizinho = -1;
+        double melhorDestino = 1e18; // numero mto alto
  
         // procura a cidade nao visitada mais proxima
         for (int j = 0; j < p->n; j++) {
-            if (!visitado[j] && p->dist[atual][j] < melhor_dist) {
-                melhor_dist = p->dist[atual][j];
-                melhor_viz = j;
+            if (!visitado[j] && p->dist[atual][j] < melhorDestino) {
+                melhorDestino = p->dist[atual][j];
+                melhorVizinho = j;
             }
         }
         
-        rota[i] = melhor_viz;
-        visitado[melhor_viz] = 1;
+        rota[i] = melhorVizinho;
+        visitado[melhorVizinho] = 1;
     }
 
     free(visitado);
@@ -165,7 +165,7 @@ bool orOpt1(Problema *p,int rota[]){
         int ant = (j - 1 + p->n) % p->n;   // so para tratar o primeiro caso e o utimo
         int prox = (j + 1) % p->n;    
 
-        double custo_remocao = p->dist[rota[ant]][rota[j]] // tira a anterior com a de agr
+        double custoRemocao = p->dist[rota[ant]][rota[j]] // tira a anterior com a de agr
                                 + p->dist[rota[j]][rota[prox]] // a anterior com a proxima 
                                 - p->dist[rota[ant]][rota[prox]]; // a nova conexao
         
@@ -178,11 +178,11 @@ bool orOpt1(Problema *p,int rota[]){
             int iProx = (i + 1) % p->n;
 
             
-            double custo_insercao = p->dist[rota[i]][rota[j]] // o atual ate o novo
+            double custoInsercao = p->dist[rota[i]][rota[j]] // o atual ate o novo
                                     + p->dist[rota[j]][rota[iProx]] // o novo ate o proximo do i
                                     - p->dist[rota[i]][rota[iProx]]; // tira a distancia dos dois 
 
-            double delta = custo_insercao - custo_remocao;
+            double delta = custoInsercao - custoRemocao;
 
             if (delta < - TOLERANCIA){//numero mto pequeno
                 if (delta < melhorDelta - TOLERANCIA) {
@@ -216,7 +216,7 @@ bool orOpt2(Problema *p,int rota[]) {
         int prox = (j + 2) % p->n;      // vizinho apos o bloco
 
         // custo de remover
-        double custo_remocao = p->dist[rota[ant]][rota[j]]
+        double custoRemocao = p->dist[rota[ant]][rota[j]]
                                 + p->dist[rota[fim]][rota[prox]]
                                 - p->dist[rota[ant]][rota[prox]];
 
@@ -228,25 +228,25 @@ bool orOpt2(Problema *p,int rota[]) {
             int iProx = (i + 1) % p->n;
 
             // j fim
-            double delta_normal = p->dist[rota[i]][rota[j]]
+            double deltaNormal = p->dist[rota[i]][rota[j]]
                                 + p->dist[rota[fim]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
-                                - custo_remocao;
+                                - custoRemocao;
 
             // fim j
-            double delta_inv = p->dist[rota[i]][rota[fim]]
+            double deltaInv = p->dist[rota[i]][rota[fim]]
                                 + p->dist[rota[j]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
-                                - custo_remocao;
+                                - custoRemocao;
             double delta; 
             bool invertido = false;
 
-            if(delta_normal < delta_inv){
-                delta = delta_normal;
+            if(deltaNormal < deltaInv){
+                delta = deltaNormal;
                 invertido = false;
             }
             else{ 
-                delta = delta_inv;
+                delta = deltaInv;
                 invertido = true;   
             }
 
@@ -290,7 +290,7 @@ bool orOpt3(Problema *p,int rota[]) {
         int prox = (j + 3) % p->n;      // vizinho apos o bloco
 
         // custo de remover o bloco [j, meio, fim] de onde esta
-        double custo_remocao = p->dist[rota[ant]][rota[j]]
+        double custoRemocao = p->dist[rota[ant]][rota[j]]
                                 + p->dist[rota[fim]][rota[prox]]
                                 - p->dist[rota[ant]][rota[prox]];
 
@@ -300,26 +300,26 @@ bool orOpt3(Problema *p,int rota[]) {
             int iProx = (i + 1) % p->n;
 
             // --- movimento normal: insere [j, meio, fim] ---
-            double delta_normal = p->dist[rota[i]][rota[j]]
+            double deltaNormal = p->dist[rota[i]][rota[j]]
                                 + p->dist[rota[fim]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
-                                - custo_remocao;
+                                - custoRemocao;
 
             // --- movimento invertido: insere [fim, meio, j] ---
-            double delta_inv = p->dist[rota[i]][rota[fim]]
+            double deltaInv = p->dist[rota[i]][rota[fim]]
                                 + p->dist[rota[j]][rota[iProx]]
                                 - p->dist[rota[i]][rota[iProx]]
-                                - custo_remocao;
+                                - custoRemocao;
 
             double delta;
             bool invertido = false;
 
-            if(delta_normal < delta_inv){
-                delta = delta_normal;
+            if(deltaNormal < deltaInv){
+                delta = deltaNormal;
                 invertido = false;
             }
             else {
-                delta = delta_inv ;
+                delta = deltaInv ;
                 invertido = true;
             }
 

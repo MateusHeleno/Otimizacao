@@ -111,8 +111,8 @@ double calcularCusto(Problema *p,int rota[]) {
 void imprimirRota(Problema *p,int rota[]) {
     printf("Rota: ");
     for (int i = 0; i < p->n; i++)
-        printf("%d -> ", rota[i]);
-    printf("%d\n", rota[0]); // volta a origem
+        printf("%d -> ", rota[i] +1);
+    printf("%d\n", rota[0]+1 ); // volta a origem
     
     printf("Custo: %.10f\n", calcularCusto(p,rota));
 }
@@ -217,10 +217,10 @@ int contaLetras(char *nomeArq){
 }
 
 bool validarSolucao(Problema *p, int rota[]) {
-    int *contagem = (int*)(malloc(sizeof(int)* p->n));
-    memset(contagem, 0, sizeof(int) * p->n); // preenchendo tudo com 0
+    int *cidades = (int*)(malloc(sizeof(int)* p->n));
+    memset(cidades, 0, sizeof(int) * p->n); // preenchendo tudo com 0
     
-    if (contagem == NULL) {
+    if (cidades == NULL) {
         printf("Erro de alocacao de memória\n");
         return false;
     }
@@ -229,26 +229,33 @@ bool validarSolucao(Problema *p, int rota[]) {
         int cidade = rota[i];
 
         if (cidade < 0 || cidade >= p->n) {
-            printf("Cidade inexistente: %d\n", cidade);
-            free(contagem);
+            printf("Cidade inexistente: %d\n", cidade+1);
+            free(cidades);
             return false;
         }
 
-        contagem[cidade]++;
+        cidades[cidade]++;
     }
 
     for (int i = 0; i < p->n; i++) {
-        if (contagem[i] == 0) {
-            printf("Cidade faltando %d\n", i);
-            free(contagem);
+        if (cidades[i] == 0) {
+            printf("Cidade faltando %d\n", i+1);
+            free(cidades);
             return false;
-        } else if (contagem[i] > 1) {
-            printf("Cidade %d duplicada\n", contagem[i]);
-            free(contagem);
+        } else if (cidades[i] > 1) {
+            printf("Cidade %d duplicada\n",i +1 );
+            free(cidades);
             return false;
         }
     }
 
-    free(contagem);
+    free(cidades);
     return true;
 }
+
+bool alocaVetor(int **rota, int tam){
+    *rota = malloc(sizeof(int ) * tam);
+    if(!rota)
+        return false;
+    return true;
+};

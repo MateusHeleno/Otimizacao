@@ -24,10 +24,32 @@ int main(int argc, char *argv[]) {
 
     // imprimirMatriz();
    
-    int *rota1 =(int*)(malloc(sizeof(int)* p.n));
-    int *rota1M =(int*)(malloc(sizeof(int)* p.n));
-    int *rota2 =(int*)(malloc(sizeof(int)* p.n));
-    int *rota2M =(int*)(malloc(sizeof(int)* p.n));
+    int *rota1, *rota1M, *rota2 ,*rota2M;
+    if(!alocaVetor(&rota1,p.n)){
+        liberaProblema(&p);
+        return 0;
+    }
+
+    if(!alocaVetor(&rota1M,p.n)){
+        free(rota1);
+        liberaProblema(&p);
+        return 0;
+    }
+
+    if(!alocaVetor(&rota2,p.n)){
+        free(rota1);
+        free(rota1M);
+        liberaProblema(&p);
+        return 0;
+    }
+    
+    if(!alocaVetor(&rota2M,p.n)){
+        free(rota1);
+        free(rota1M);
+        free(rota2);
+        liberaProblema(&p);
+        return 0;
+    }   
 
     inicio = clock();
 

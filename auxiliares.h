@@ -22,4 +22,6 @@ int procuraSolucaoLit(char *nomeArq);
 int contaLetras(char *nomeArq);
 bool validarSolucao(Problema *p, int rota[]);
 
+bool alocaVetor(int **rota, int tam);
+
 #endif //AUXILIARES_h
