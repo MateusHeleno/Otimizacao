@@ -87,13 +87,14 @@ int main(int argc, char *argv[]) {
     printf("Tempo de execucao: %f segundos\n", tempo);
     int otimo = procuraSolucaoLit(argv[1]);
     printf("%s: %d\n",argv[1],otimo);
+
     if(validarSolucao(&p,rota1))
-        printf("verdadeiro \n");
+        printf("\tCorreto \n");
     else
-        printf("falso \n");
+        printf("\tIncorreto \n");
+
 
     liberaProblema(&p);
-
     free(rota1);
     free(rota1M);
     free(rota2);

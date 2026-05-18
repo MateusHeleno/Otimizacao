@@ -31,5 +31,6 @@ bool exchange(Problema *p,int rota[]);
 void vnd(Problema *p,int rota[]);
 void vndI(Problema *p,int rota[]);
 void rvnd(Problema *p,int rota[]);
+void iLs (Problema *p, int rota []);
  
 #endif /* OTIM_H */

@@ -48,7 +48,7 @@ void mcfic(Problema *p,int rota[]) {
 
     int tamanhoRota = 1;
 
-    // // acha o vizinho mais proximo do deposito
+    // // acha o vizinho mais proximo do 0
     // int maisProximo = 1;
     // double menorDist = dist[0][1];
     // for (int i = 2; i < n; i++) {
@@ -58,7 +58,7 @@ void mcfic(Problema *p,int rota[]) {
     //     }
     // }
 
-    // // inicializa o ciclo com deposito e vizinho mais proximo
+    // // inicializa o ciclo com 0 e vizinho mais proximo
     // rota[0] = 0;
     // rota[1] = maisProximo;
     // tamanhoRota = 2;
@@ -91,7 +91,7 @@ void mcfic(Problema *p,int rota[]) {
 
                 // custo de inserir k entre i e j
                 double custo = p->dist[i][k] + p->dist[k][j] - p->dist[i][j] 
-                /* - gamma * (dist[0][k] + dist[k][0]) */;
+                /* - gamma * (dist[0][k] + dist[k][0]) */; // fazer a distancia do 0 pro k fez uma constante ede distancia
 
                 if (custo < melhorCusto) {
                     melhorCusto   = custo;
@@ -101,7 +101,7 @@ void mcfic(Problema *p,int rota[]) {
             }
         }
 
-        // desloca o array para abrir espaco na posicao melhorPosicao+1
+        // desloca o vetor para abrir espaco na posicao melhorPosicao+1
         for (int x = tamanhoRota; x > melhorPosicao + 1; x--)
             rota[x] = rota[x - 1]; 
 
@@ -449,4 +449,17 @@ void rvnd(Problema *p,int rota[]) {
             i++; // vai pra proxima escolha
         }
     }
+}
+
+void iLs (Problema *p, int rota []){
+    int x,y;
+    x = (rand() % ( p->n - 1)) + 1;
+    y = x;
+
+    while(!(abs(x - y) > p->n * 0.15)){ // garantir que  a diferenca seja de no minimo 15 do total
+        y = (rand() % ( p->n - 1)) + 1;
+    }
+    
+    troca(rota, x,y);
+    rvnd(p,rota);
 }
