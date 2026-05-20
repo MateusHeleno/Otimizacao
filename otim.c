@@ -456,10 +456,12 @@ void iLs (Problema *p, int rota []){
     x = (rand() % ( p->n - 1)) + 1;
     y = x;
 
-    while(!(abs(x - y) > p->n * 0.15)){ // garantir que  a diferenca seja de no minimo 15 do total
-        y = (rand() % ( p->n - 1)) + 1;
+    for(int i =0;i<4;i++){
+        while(!(abs(x - y) > p->n * 0.15)){ // garantir que  a diferenca seja de no minimo 15 do total
+            y = (rand() % ( p->n - 1)) + 1;
+        }
+        
+        troca(rota, x,y);
+        rvnd(p,rota);
     }
-    
-    troca(rota, x,y);
-    rvnd(p,rota);
 }

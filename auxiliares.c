@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include "otim.h"
+#include "auxiliares.h"
 
 void leEntrada(Problema *p,char *nomeArq){
     char nome[512];
@@ -217,7 +218,13 @@ int contaLetras(char *nomeArq){
 }
 
 bool validarSolucao(Problema *p, int rota[]) {
-    int *cidades = (int*)(malloc(sizeof(int)* p->n));
+    int *cidades;
+    if(!alocaVetor(&cidades,p->n)){
+        liberaProblema(p);
+        printf("Problema de alocacao de memoria ");
+        exit(1);
+    }
+
     memset(cidades, 0, sizeof(int) * p->n); // preenchendo tudo com 0
     
     if (cidades == NULL) {
